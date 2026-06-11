@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VintedAI — Générateur d'annonces</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--s1:#141414;--s2:#1e1e1e;--border:#2a2a2a;--accent:#09E574;--adim:rgba(9,229,116,.1);--text:#f0f0f0;--muted:#777;--r:14px;--rsm:9px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;line-height:1.6}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);z-index:100}
+.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.badge{font-size:11px;font-weight:600;background:var(--adim);color:var(--accent);border:1px solid rgba(9,229,116,.25);padding:4px 12px;border-radius:20px}
+main{max-width:820px;margin:0 auto;padding:48px 24px 80px}
+h1{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,40px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:8px}
+h1 em{color:var(--accent);font-style:normal}
+.sub{color:var(--muted);font-size:14px;margin-bottom:36px}
+.slabel{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.dropzone{border:2px dashed var(--border);border-radius:var(--r);padding:52px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--s1);position:relative}
+.dropzone:hover,.dropzone.dg{border-color:var(--accent);background:rgba(9,229,116,.04)}
+.dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.di{font-size:36px;display:block;margin-bottom:12px}
+.dt{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:5px}
+.dh{font-size:12px;color:var(--muted)}
+.prev-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.pi{position:relative;width:80px;height:80px;border-radius:var(--rsm);overflow:hidden;border:1px solid var(--border)}
+.pi img{width:100%;height:100%;object-fit:cover;display:block}
+.pi button{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.75);border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gen-btn{width:100%;margin-top:20px;padding:15px;background:var(--accent);color:#000;border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{filter:brightness(1.1)}
+.gen-btn:disabled{opacity:.3;cursor:not-allowed;filter:none}
+.loader{display:none;text-align:center;padding:44px 0}
+.loader.on{display:block}
+.spin{width:32px;height:32px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.smsg{font-size:13px;color:var(--muted)}
+.errbox{display:none;background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.25);border-radius:var(--rsm);padding:13px 16px;font-size:13px;color:#ff8080;margin-top:14px}
+.errbox.on{display:block}
+.result{display:none;margin-top:36px}
+.result.on{display:block}
+.rhead{background:var(--adim);border:1px solid rgba(9,229,116,.2);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.rhead span{font-size:13px;color:var(--accent);font-weight:600}
+.fbox{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:15px 16px;margin-bottom:12px;position:relative}
+.fval{font-size:13px;color:var(--text);line-height:1.65;white-space:pre-wrap;padding-right:64px}
+.cbtn{position:absolute;top:12px;right:12px;font-size:11px;padding:4px 10px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);color:var(--muted);cursor:pointer;transition:.15s;font-family:'Inter',sans-serif}
+.cbtn:hover{color:var(--accent);border-color:rgba(9,229,116,.4)}
+.cbtn.ok{color:var(--accent);border-color:rgba(9,229,116,.4)}
+.prices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.pcard{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center}
+.pcard.hl{background:var(--adim);border-color:rgba(9,229,116,.3)}
+.plabel{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.pval{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.pcard.hl .pval{color:var(--accent)}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.tag{font-size:12px;padding:4px 11px;border-radius:20px;background:var(--s2);border:1px solid var(--border);color:var(--muted)}
+.call{width:100%;padding:13px;background:var(--s2);color:var(--accent);border:1px solid rgba(9,229,116,.25);border-radius:var(--r);font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;margin-bottom:10px}
+.call:hover{background:var(--adim)}
+.nbtn{width:100%;padding:11px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--r);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.nbtn:hover{color:var(--text);border-color:#444}
+@media(max-width:580px){header{padding:14px 18px}main{padding:28px 16px 60px}.prices{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Vinted<span>AI</span></div>
+  <div class="badge">GÉNÉRATEUR D'ANNONCES</div>
+</header>
+<main>
+  <h1>Vos photos.<br><em>Votre annonce.</em></h1>
+  <p class="sub">Déposez une photo → l'IA analyse et rédige l'annonce complète pour Vinted en quelques secondes.</p>
+
+  <div class="slabel">Photos du vêtement</div>
+  <div class="dropzone" id="dz">
+    <input type="file" id="fi" accept="image/*" multiple />
+    <span class="di">📸</span>
+    <div class="dt">Glissez vos photos ici</div>
+    <p class="dh">ou cliquez pour sélectionner · JPG, PNG, WEBP · plusieurs photos OK</p>
+  </div>
+  <div class="prev-grid" id="pg"></div>
+
+  <button class="gen-btn" id="gb" disabled>✦ Générer l'annonce</button>
+  <div class="errbox" id="eb"></div>
+
+  <div class="loader" id="ld">
+    <div class="spin"></div>
+    <p class="smsg" id="sm">Analyse en cours…</p>
+  </div>
+
+  <div class="result" id="res">
+    <div class="rhead"><span>✅ Annonce générée — prête à coller sur Vinted</span></div>
+
+    <div class="slabel">Titre</div>
+    <div class="fbox"><div class="fval" id="rT"></div><button class="cbtn" onclick="cp('rT',this)">Copier</button></div>
+
+    <div class="slabel">Détails</div>
+    <div class="fbox"><div class="fval" id="rM"></div><button class="cbtn" onclick="cp('rM',this)">Copier</button></div>
+
+    <div class="slabel">Estimation de prix</div>
+    <div class="prices">
+      <div class="pcard"><div class="plabel">Minimum</div><div class="pval" id="pn">—</div></div>
+      <div class="pcard hl"><div class="plabel">Recommandé</div><div class="pval" id="pm">—</div></div>
+      <div class="pcard"><div class="plabel">Maximum</div><div class="pval" id="px">—</div></div>
+    </div>
+
+    <div class="slabel">Description complète</div>
+    <div class="fbox"><div class="fval" id="rD"></div><button class="cbtn" onclick="cp('rD',this)">Copier</button></div>
+
+    <div class="slabel">Mots-clés</div>
+    <div class="tags-wrap" id="rTg"></div>
+
+    <button class="call" onclick="copyAll()">📋 Tout copier (titre + description + prix)</button>
+    <button class="nbtn" onclick="resetAll()">↩ Nouvelle annonce</button>
+  </div>
+</main>
+<script>
+let imgs=[],last=null;
+const dz=document.getElementById('dz'),fi=document.getElementById('fi'),pg=document.getElementById('pg'),gb=document.getElementById('gb');
+fi.addEventListener('change',()=>handleFiles([...fi.files]));
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dg')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dg'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dg');handleFiles([...e.dataTransfer.files])});
+function handleFiles(files){
+  files.filter(f=>f.type.startsWith('image/')).forEach(file=>{
+    const r=new FileReader();
+    r.onload=e=>{const d=e.target.result;imgs.push({dataUrl:d,base64:d.split(',')[1],mime:file.type});renderPrev();gb.disabled=false};
+    r.readAsDataURL(file);
+  });
+}
+function renderPrev(){pg.innerHTML='';imgs.forEach((img,i)=>{const d=document.createElement('div');d.className='pi';d.innerHTML=`<img src="${img.dataUrl}"/><button onclick="rmImg(${i})">✕</button>`;pg.appendChild(d)})}
+function rmImg(i){imgs.splice(i,1);renderPrev();if(!imgs.length)gb.disabled=true}
+gb.addEventListener('click',generate);
+async function generate(){
+  if(!imgs.length)return;
+  gb.disabled=true;
+  document.getElementById('ld').className='loader on';
+  document.getElementById('res').className='result';
+  document.getElementById('eb').className='errbox';
+  document.getElementById('sm').textContent='🔍 Analyse du vêtement…';
+  try{
+    document.getElementById('sm').textContent='🤖 Génération de l\'annonce…';
+    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images:imgs.map(i=>({base64:i.base64,mime:i.mime}))})});
+    const data=await r.json();
+    if(!r.ok||data.error)throw new Error(data.error||'Erreur serveur');
+    last=data.result;
+    showResult(data.result);
+  }catch(err){
+    const eb=document.getElementById('eb');eb.textContent='⚠️ '+err.message;eb.className='errbox on';
+  }finally{
+    document.getElementById('ld').className='loader';
+    gb.disabled=imgs.length===0;
+  }
+}
+function showResult(r){
+  document.getElementById('rT').textContent=r.titre||'';
+  document.getElementById('rM').textContent=['📂 '+r.categorie,'🏷️ '+r.marque,'📐 Taille '+r.taille,'✨ '+r.etat,'🎨 '+r.couleur,r.matiere?'🧵 '+r.matiere:null].filter(Boolean).join('\n');
+  document.getElementById('pn').textContent=r.prix_min+' €';
+  document.getElementById('pm').textContent=r.prix_recommande+' €';
+  document.getElementById('px').textContent=r.prix_max+' €';
+  document.getElementById('rD').textContent=r.description||'';
+  const tw=document.getElementById('rTg');tw.innerHTML='';
+  (r.tags||[]).forEach(t=>{const s=document.createElement('span');s.className='tag';s.textContent='#'+t;tw.appendChild(s)});
+  document.getElementById('res').className='result on';
+  document.getElementById('res').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function cp(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(()=>{btn.textContent='✓ Copié';btn.className='cbtn ok';setTimeout(()=>{btn.textContent='Copier';btn.className='cbtn'},1800)});
+}
+function copyAll(){
+  if(!last)return;
+  const t=`${last.titre}\n\n${last.description}\n\nPrix : ${last.prix_recommande} €\nTaille : ${last.taille} | État : ${last.etat} | Marque : ${last.marque}`;
+  navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.call');b.textContent='✓ Tout copié !';setTimeout(()=>{b.textContent='📋 Tout copier (titre + description + prix)'},2000)});
+}
+function resetAll(){
+  imgs=[];last=null;pg.innerHTML='';fi.value='';
+  document.getElementById('res').className='result';
+  document.getElementById('eb').className='errbox';
+  gb.disabled=true;window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
