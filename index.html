@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0a0a;--s1:#141414;--s2:#1e1e1e;--s3:#252525;--border:#2a2a2a;--accent:#09E574;--adim:rgba(9,229,116,.1);--text:#f0f0f0;--muted:#666;--r:14px;--rsm:9px}
+:root{--bg:#0a0a0a;--s1:#141414;--s2:#1e1e1e;--border:#2a2a2a;--accent:#09E574;--adim:rgba(9,229,116,.1);--text:#f0f0f0;--muted:#666;--r:14px;--rsm:9px}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;line-height:1.6}
 header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);z-index:100}
 .logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px}
@@ -18,64 +18,44 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,38px);font-weight:800;
 h1 em{color:var(--accent);font-style:normal}
 .sub{color:var(--muted);font-size:14px;margin-bottom:36px}
 .slabel{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-
-/* DROPZONE */
 .dropzone{border:2px dashed var(--border);border-radius:var(--r);padding:44px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--s1);position:relative}
 .dropzone:hover,.dropzone.dg{border-color:var(--accent);background:rgba(9,229,116,.04)}
 .dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .di{font-size:32px;display:block;margin-bottom:10px}
 .dt{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px}
 .dh{font-size:12px;color:var(--muted)}
-
-/* GROUPES */
-.groups-wrap{margin-top:24px}
+.groups-wrap{margin-top:24px;display:none}
 .groups-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.groups-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
-.groups-count{font-size:12px;color:var(--muted)}
 .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.group-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:.2s}
-.group-card.done{border-color:rgba(9,229,116,.3)}
-.group-photos{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);aspect-ratio:2/1}
+.group-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.group-photos{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border)}
 .group-photo{position:relative;background:var(--s2)}
-.group-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.group-photo.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;min-height:80px}
+.group-photo img{width:100%;height:100%;object-fit:cover;display:block;min-height:80px}
+.group-photo.empty{display:flex;align-items:center;justify-content:center;min-height:80px}
 .rmphoto{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.75);border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .group-footer{padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
 .group-num{font-size:12px;font-weight:600;color:var(--muted)}
 .group-status{font-size:11px}
 .group-status.ok{color:var(--accent)}
 .group-status.wait{color:var(--muted)}
-.rmgroup{background:none;border:none;color:#444;font-size:18px;cursor:pointer;line-height:1;padding:0 4px}
+.rmgroup{background:none;border:none;color:#444;font-size:18px;cursor:pointer;padding:0 4px}
 .rmgroup:hover{color:#ff6060}
-
-/* ADD GROUP */
 .add-group-btn{background:var(--s1);border:1px dashed var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;padding:20px;transition:.2s;min-height:140px}
 .add-group-btn:hover{border-color:var(--accent);color:var(--accent)}
-
-/* BOUTON GENERER */
 .gen-btn{width:100%;margin-top:24px;padding:15px;background:var(--accent);color:#000;border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
 .gen-btn:hover{filter:brightness(1.1)}
 .gen-btn:disabled{opacity:.3;cursor:not-allowed;filter:none}
-
-/* PROGRESS */
 .progress-wrap{display:none;margin-top:20px}
 .progress-wrap.on{display:block}
 .progress-bar-bg{background:var(--s2);border-radius:20px;height:6px;overflow:hidden;margin-bottom:10px}
 .progress-bar{background:var(--accent);height:100%;border-radius:20px;transition:.4s;width:0%}
 .progress-msg{font-size:13px;color:var(--muted);text-align:center}
-
-/* RESULTATS */
 .results-wrap{margin-top:40px;display:none}
 .results-wrap.on{display:block}
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.results-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
-.results-sub{font-size:13px;color:var(--muted)}
-.copy-all-btn{padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:var(--rsm);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
-.copy-all-btn:hover{filter:brightness(1.1)}
-
-/* ANNONCE CARD */
+.results-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px}
+.results-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
 .annonce-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
-.ac-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.ac-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
 .ac-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#000;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ac-titre{font-weight:600;font-size:14px;flex:1}
 .ac-prix{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent)}
@@ -98,20 +78,15 @@ h1 em{color:var(--accent);font-style:normal}
 .pcard.hl .pval{color:var(--accent)}
 .tags-w{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .tag{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--s2);border:1px solid var(--border);color:var(--muted)}
-.ac-copy-btn{width:100%;padding:11px;background:var(--adim);color:var(--accent);border:1px solid rgba(9,229,116,.25);border-radius:var(--rsm);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.ac-copy-btn{width:100%;padding:11px;background:var(--adim);color:var(--accent);border:1px solid rgba(9,229,116,.25);border-radius:var(--rsm);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;margin-bottom:8px}
 .ac-copy-btn:hover{background:rgba(9,229,116,.15)}
-
+.ac-json-btn{width:100%;padding:11px;background:transparent;color:var(--accent);border:1px solid rgba(9,229,116,.25);border-radius:var(--rsm);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.ac-json-btn:hover{background:var(--adim)}
 .new-btn{width:100%;margin-top:12px;padding:11px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--r);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
 .new-btn:hover{color:var(--text);border-color:#444}
 .errbox{display:none;background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.25);border-radius:var(--rsm);padding:12px 16px;font-size:13px;color:#ff8080;margin-top:12px}
 .errbox.on{display:block}
-
-@media(max-width:580px){
-  header{padding:14px 18px}
-  main{padding:28px 16px 60px}
-  .groups-grid{grid-template-columns:1fr 1fr}
-  .prices-row{grid-template-columns:1fr}
-}
+@media(max-width:580px){header{padding:14px 18px}main{padding:28px 16px 60px}.groups-grid{grid-template-columns:1fr 1fr}.prices-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -121,22 +96,20 @@ h1 em{color:var(--accent);font-style:normal}
 </header>
 <main>
   <h1>Toutes vos photos.<br><em>Toutes vos annonces.</em></h1>
-  <p class="sub">Envoyez toutes vos photos → l'IA génère une annonce complète par vêtement.</p>
+  <p class="sub">2 photos par vêtement → l'IA génère une annonce complète pour chacun.</p>
 
-  <!-- DROPZONE -->
   <div class="slabel">1. Ajoutez toutes vos photos</div>
   <div class="dropzone" id="dz">
     <input type="file" id="fi" accept="image/*" multiple />
     <span class="di">📸</span>
     <div class="dt">Glissez toutes vos photos ici</div>
-    <p class="dh">Elles seront automatiquement groupées par paires · 2 photos = 1 vêtement</p>
+    <p class="dh">Regroupement automatique par paires · 2 photos = 1 vêtement</p>
   </div>
 
-  <!-- GROUPES -->
-  <div class="groups-wrap" id="groupsWrap" style="display:none">
+  <div class="groups-wrap" id="groupsWrap">
     <div class="groups-header">
-      <div class="groups-title slabel" style="font-size:11px">2. Vérifiez les groupes — <span id="groupCount">0</span> vêtement(s)</div>
-      <div class="groups-count" id="photoCount"></div>
+      <div class="slabel" style="margin-bottom:0">2. Vérifiez les groupes — <span id="groupCount">0</span> vêtement(s)</div>
+      <div style="font-size:12px;color:var(--muted)" id="photoCount"></div>
     </div>
     <div class="groups-grid" id="groupsGrid"></div>
   </div>
@@ -144,34 +117,26 @@ h1 em{color:var(--accent);font-style:normal}
   <button class="gen-btn" id="genBtn" disabled>✦ Générer toutes les annonces</button>
   <div class="errbox" id="errBox"></div>
 
-  <!-- PROGRESS -->
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
     <div class="progress-msg" id="progressMsg">Préparation…</div>
   </div>
 
-  <!-- RESULTATS -->
   <div class="results-wrap" id="resultsWrap">
-    <div class="results-header">
-      <div>
-        <div class="results-title">✅ <span id="resCount">0</span> annonces générées</div>
-        <div class="results-sub">Cliquez sur chaque annonce pour la voir et la copier</div>
-      </div>
-    </div>
+    <div class="results-title">✅ <span id="resCount">0</span> annonces générées</div>
+    <div class="results-sub">Cliquez sur chaque annonce pour la copier sur Vinted</div>
     <div id="annoncesList"></div>
     <button class="new-btn" onclick="resetAll()">↩ Recommencer</button>
   </div>
 </main>
 
 <script>
-// État global
-let groups = []; // [{photos:[{dataUrl,base64,mime},...]}]
-let results = []; // annonces générées
+let groups = [];
+let results = [];
 
 const dz = document.getElementById('dz');
 const fi = document.getElementById('fi');
 
-// Drag & drop
 fi.addEventListener('change', () => addPhotos([...fi.files]));
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dg'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('dg'));
@@ -180,148 +145,83 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dg')
 function addPhotos(files) {
   const imgs = files.filter(f => f.type.startsWith('image/'));
   if (!imgs.length) return;
-
   let pending = imgs.length;
   const loaded = [];
-
   imgs.forEach((file, i) => {
     const r = new FileReader();
     r.onload = e => {
       loaded[i] = { dataUrl: e.target.result, base64: e.target.result.split(',')[1], mime: file.type };
-      pending--;
-      if (pending === 0) {
-        // Regroupe par paires dans les groupes existants ou nouveaux
-        distributePhotos(loaded.filter(Boolean));
-      }
+      if (--pending === 0) distributePhotos(loaded.filter(Boolean));
     };
     r.readAsDataURL(file);
   });
 }
 
 function distributePhotos(photos) {
-  // Ajoute les photos dans les groupes en remplissant les slots vides d'abord
-  // puis crée de nouveaux groupes par paires
-  
-  let photoQueue = [...photos];
-  
-  // Remplir les groupes incomplets
+  let q = [...photos];
   for (let g of groups) {
-    if (g.photos.length < 2 && photoQueue.length > 0) {
-      g.photos.push(photoQueue.shift());
-    }
+    if (g.photos.length < 2 && q.length > 0) g.photos.push(q.shift());
   }
-  
-  // Créer nouveaux groupes par paires
-  while (photoQueue.length > 0) {
-    const newGroup = { photos: [] };
-    newGroup.photos.push(photoQueue.shift());
-    if (photoQueue.length > 0) newGroup.photos.push(photoQueue.shift());
-    groups.push(newGroup);
+  while (q.length > 0) {
+    const ng = { photos: [q.shift()] };
+    if (q.length > 0) ng.photos.push(q.shift());
+    groups.push(ng);
   }
-
   renderGroups();
 }
 
 function renderGroups() {
   const wrap = document.getElementById('groupsWrap');
   const grid = document.getElementById('groupsGrid');
-  
-  if (groups.length === 0) {
-    wrap.style.display = 'none';
-    document.getElementById('genBtn').disabled = true;
-    return;
-  }
-  
+  if (!groups.length) { wrap.style.display = 'none'; document.getElementById('genBtn').disabled = true; return; }
   wrap.style.display = 'block';
   document.getElementById('groupCount').textContent = groups.length;
-  const total = groups.reduce((a, g) => a + g.photos.length, 0);
-  document.getElementById('photoCount').textContent = total + ' photo(s)';
-  
+  document.getElementById('photoCount').textContent = groups.reduce((a, g) => a + g.photos.length, 0) + ' photo(s)';
   grid.innerHTML = '';
-  
   groups.forEach((g, gi) => {
     const card = document.createElement('div');
     card.className = 'group-card';
-    
-    // Photos
-    const photosDiv = document.createElement('div');
-    photosDiv.className = 'group-photos';
-    
+    const ph = document.createElement('div');
+    ph.className = 'group-photos';
     for (let pi = 0; pi < 2; pi++) {
       const slot = document.createElement('div');
-      slot.className = 'group-photo';
-      
+      slot.className = 'group-photo' + (g.photos[pi] ? '' : ' empty');
       if (g.photos[pi]) {
-        slot.innerHTML = `<img src="${g.photos[pi].dataUrl}" />
-          <button class="rmphoto" onclick="removePhoto(${gi},${pi})">✕</button>`;
+        slot.innerHTML = `<img src="${g.photos[pi].dataUrl}"/><button class="rmphoto" onclick="removePhoto(${gi},${pi})">✕</button>`;
       } else {
-        slot.className += ' empty';
-        slot.innerHTML = `<label style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:100%;height:100%;flex-direction:column;gap:4px">
-          <span style="font-size:22px">+</span>
-          <span style="font-size:10px;color:var(--muted)">Ajouter</span>
-          <input type="file" accept="image/*" style="display:none" onchange="addToSlot(${gi},${pi},this)" />
-        </label>`;
+        slot.innerHTML = `<label style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:100%;height:100%;flex-direction:column;gap:4px;color:var(--muted)"><span style="font-size:22px">+</span><span style="font-size:10px">Ajouter</span><input type="file" accept="image/*" style="display:none" onchange="addToSlot(${gi},${pi},this)"/></label>`;
       }
-      photosDiv.appendChild(slot);
+      ph.appendChild(slot);
     }
-    
-    // Footer
     const footer = document.createElement('div');
     footer.className = 'group-footer';
-    footer.innerHTML = `
-      <span class="group-num">Vêtement ${gi + 1}</span>
-      <span class="group-status ${g.photos.length === 2 ? 'ok' : 'wait'}">
-        ${g.photos.length === 2 ? '✓ Prêt' : g.photos.length + '/2 photos'}
-      </span>
-      <button class="rmgroup" onclick="removeGroup(${gi})" title="Supprimer">×</button>
-    `;
-    
-    card.appendChild(photosDiv);
+    footer.innerHTML = `<span class="group-num">Vêtement ${gi+1}</span><span class="group-status ${g.photos.length===2?'ok':'wait'}">${g.photos.length===2?'✓ Prêt':g.photos.length+'/2'}</span><button class="rmgroup" onclick="removeGroup(${gi})">×</button>`;
+    card.appendChild(ph);
     card.appendChild(footer);
     grid.appendChild(card);
   });
-  
-  // Bouton ajouter groupe
   const addBtn = document.createElement('div');
   addBtn.className = 'add-group-btn';
-  addBtn.innerHTML = `<span style="font-size:20px">+</span> Ajouter un vêtement`;
+  addBtn.innerHTML = '<span style="font-size:20px">+</span> Ajouter un vêtement';
   addBtn.onclick = () => { groups.push({ photos: [] }); renderGroups(); };
   grid.appendChild(addBtn);
-  
-  // Activer bouton générer si au moins 1 groupe avec 1 photo
-  const ready = groups.some(g => g.photos.length > 0);
-  document.getElementById('genBtn').disabled = !ready;
+  document.getElementById('genBtn').disabled = !groups.some(g => g.photos.length > 0);
 }
 
-function removePhoto(gi, pi) {
-  groups[gi].photos.splice(pi, 1);
-  if (groups[gi].photos.length === 0) groups.splice(gi, 1);
-  renderGroups();
-}
-
-function removeGroup(gi) {
-  groups.splice(gi, 1);
-  renderGroups();
-}
-
+function removePhoto(gi, pi) { groups[gi].photos.splice(pi, 1); if (!groups[gi].photos.length) groups.splice(gi, 1); renderGroups(); }
+function removeGroup(gi) { groups.splice(gi, 1); renderGroups(); }
 function addToSlot(gi, pi, input) {
-  const file = input.files[0];
-  if (!file) return;
+  const file = input.files[0]; if (!file) return;
   const r = new FileReader();
-  r.onload = e => {
-    groups[gi].photos[pi] = { dataUrl: e.target.result, base64: e.target.result.split(',')[1], mime: file.type };
-    renderGroups();
-  };
+  r.onload = e => { groups[gi].photos[pi] = { dataUrl: e.target.result, base64: e.target.result.split(',')[1], mime: file.type }; renderGroups(); };
   r.readAsDataURL(file);
 }
 
-// GÉNÉRATION
 document.getElementById('genBtn').addEventListener('click', generateAll);
 
 async function generateAll() {
-  const readyGroups = groups.filter(g => g.photos.length > 0);
-  if (!readyGroups.length) return;
-
+  const ready = groups.filter(g => g.photos.length > 0);
+  if (!ready.length) return;
   document.getElementById('genBtn').disabled = true;
   document.getElementById('progressWrap').className = 'progress-wrap on';
   document.getElementById('resultsWrap').className = 'results-wrap';
@@ -329,24 +229,20 @@ async function generateAll() {
   document.getElementById('annoncesList').innerHTML = '';
   results = [];
 
-  for (let i = 0; i < readyGroups.length; i++) {
-    const pct = Math.round((i / readyGroups.length) * 100);
-    setProgress(pct, `⚙️ Génération ${i + 1} / ${readyGroups.length}…`);
-
+  for (let i = 0; i < ready.length; i++) {
+    setProgress(Math.round(i / ready.length * 100), `⚙️ Annonce ${i+1} / ${ready.length}…`);
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ images: readyGroups[i].photos.map(p => ({ base64: p.base64, mime: p.mime })) })
+        body: JSON.stringify({ images: ready[i].photos.map(p => ({ base64: p.base64, mime: p.mime })) })
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error || 'Erreur serveur');
-      results.push({ annonce: data.result, photos: readyGroups[i].photos });
+      results.push({ annonce: data.result, photos: ready[i].photos });
     } catch(err) {
-      results.push({ error: err.message, photos: readyGroups[i].photos });
+      results.push({ error: err.message, photos: ready[i].photos });
     }
-
-    // Affiche au fur et à mesure
     renderResult(results.length - 1);
   }
 
@@ -363,60 +259,48 @@ function renderResult(i) {
   const card = document.createElement('div');
   card.className = 'annonce-card';
   card.id = 'ac-' + i;
-
   if (r.error) {
     card.innerHTML = `<div style="padding:14px 18px;color:#ff8080;font-size:13px">⚠️ Vêtement ${i+1} : ${r.error}</div>`;
     list.appendChild(card);
     return;
   }
-
   const a = r.annonce;
-  const photosHtml = r.photos.map(p => `<img src="${p.dataUrl}" />`).join('');
-  const tagsHtml = (a.tags||[]).map(t => `<span class="tag">#${t}</span>`).join('');
-
   card.innerHTML = `
     <div class="ac-head" onclick="toggleCard(${i})">
       <div class="ac-num">${i+1}</div>
-      <div class="ac-titre">${a.titre || 'Vêtement ' + (i+1)}</div>
+      <div class="ac-titre">${a.titre||'Vêtement '+(i+1)}</div>
       <div class="ac-prix">${a.prix_recommande} €</div>
       <div class="ac-arrow">▾</div>
     </div>
     <div class="ac-body" id="acb-${i}">
-      <div class="ac-photos">${photosHtml}</div>
-
+      <div class="ac-photos">${r.photos.map(p=>`<img src="${p.dataUrl}"/>`).join('')}</div>
       <div class="slabel">Titre</div>
       <div class="fbox"><div class="fval" id="rT${i}">${a.titre||''}</div><button class="cbtn" onclick="cp('rT${i}',this)">Copier</button></div>
-
       <div class="slabel">Détails</div>
       <div class="fbox"><div class="fval" id="rM${i}">${['📂 '+a.categorie,'🏷️ '+a.marque,'📐 Taille '+a.taille,'✨ '+a.etat,'🎨 '+a.couleur,a.matiere?'🧵 '+a.matiere:null].filter(Boolean).join('\n')}</div><button class="cbtn" onclick="cp('rM${i}',this)">Copier</button></div>
-
       <div class="slabel">Prix</div>
       <div class="prices-row">
         <div class="pcard"><div class="plabel">Minimum</div><div class="pval">${a.prix_min} €</div></div>
         <div class="pcard hl"><div class="plabel">Recommandé</div><div class="pval">${a.prix_recommande} €</div></div>
         <div class="pcard"><div class="plabel">Maximum</div><div class="pval">${a.prix_max} €</div></div>
       </div>
-
       <div class="slabel">Description</div>
       <div class="fbox"><div class="fval" id="rD${i}">${a.description||''}</div><button class="cbtn" onclick="cp('rD${i}',this)">Copier</button></div>
-
       <div class="slabel">Mots-clés</div>
-      <div class="tags-w">${tagsHtml}</div>
-
+      <div class="tags-w">${(a.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join('')}</div>
       <button class="ac-copy-btn" onclick="copyAnnonce(${i})">📋 Tout copier — Vêtement ${i+1}</button>
-    </div>
-  `;
+      <button class="ac-json-btn" onclick="copyJSON(${i})">🔌 Copier JSON pour extension Chrome</button>
+    </div>`;
   list.appendChild(card);
-  // Ouvre automatiquement la première
   if (i === 0) toggleCard(0);
 }
 
 function toggleCard(i) {
   const head = document.querySelector(`#ac-${i} .ac-head`);
   const body = document.getElementById('acb-' + i);
-  const isOpen = body.classList.contains('open');
-  body.className = isOpen ? 'ac-body' : 'ac-body open';
-  head.className = isOpen ? 'ac-head' : 'ac-head open';
+  const open = body.classList.contains('open');
+  body.className = open ? 'ac-body' : 'ac-body open';
+  head.className = open ? 'ac-head' : 'ac-head open';
 }
 
 function cp(id, btn) {
@@ -429,14 +313,21 @@ function cp(id, btn) {
 }
 
 function copyAnnonce(i) {
-  const r = results[i];
-  if (!r || r.error) return;
+  const r = results[i]; if (!r || r.error) return;
   const a = r.annonce;
-  const t = `${a.titre}\n\n${a.description}\n\nPrix : ${a.prix_recommande} €\nTaille : ${a.taille} | État : ${a.etat} | Marque : ${a.marque}`;
-  navigator.clipboard.writeText(t).then(() => {
+  navigator.clipboard.writeText(`${a.titre}\n\n${a.description}\n\nPrix : ${a.prix_recommande} €\nTaille : ${a.taille} | État : ${a.etat} | Marque : ${a.marque}`).then(() => {
     const btn = document.querySelector(`#ac-${i} .ac-copy-btn`);
     btn.textContent = '✓ Copié !';
     setTimeout(() => { btn.textContent = `📋 Tout copier — Vêtement ${i+1}`; }, 2000);
+  });
+}
+
+function copyJSON(i) {
+  const r = results[i]; if (!r || r.error) return;
+  navigator.clipboard.writeText(JSON.stringify(r.annonce)).then(() => {
+    const btn = document.querySelector(`#ac-${i} .ac-json-btn`);
+    btn.textContent = '✓ JSON copié !';
+    setTimeout(() => { btn.textContent = '🔌 Copier JSON pour extension Chrome'; }, 2000);
   });
 }
 
